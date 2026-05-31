@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gubernator — Your AI Agent, Finally Under Control</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090f;
+      --bg2: #0d1220;
+      --bg3: #131928;
+      --border: #1a2540;
+      --border2: #263050;
+      --gold: #c4952a;
+      --gold-l: #e8b84b;
+      --gold-dim: rgba(196,149,42,0.12);
+      --text: #e2e6f0;
+      --text2: #7a8499;
+      --text3: #3d4659;
+      --green: #34d399;
+      --red: #f87171;
+      --mono: 'JetBrains Mono', monospace;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--sans); background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(7,9,15,0.88); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2.5rem; height: 62px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { font-family: var(--serif); font-size: 1.5rem; font-weight: 500; color: var(--gold-l); text-decoration: none; letter-spacing: 0.02em; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
+    .nav-links a { color: var(--text2); text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .btn-nav { background: var(--gold); color: #07090f; padding: 0.45rem 1.2rem; border-radius: 6px; font-weight: 600; font-size: 0.85rem; text-decoration: none; transition: background 0.2s; }
+    .btn-nav:hover { background: var(--gold-l); color: #07090f; }
+
+    /* BUTTONS */
+    .btn-gold { display: inline-block; background: var(--gold); color: #07090f; padding: 0.7rem 1.75rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; text-decoration: none; transition: background 0.2s; cursor: pointer; border: none; font-family: var(--sans); }
+    .btn-gold:hover { background: var(--gold-l); }
+    .btn-line { display: inline-block; border: 1px solid var(--border2); color: var(--text); padding: 0.7rem 1.75rem; border-radius: 8px; font-weight: 500; font-size: 0.9rem; text-decoration: none; transition: all 0.2s; cursor: pointer; background: transparent; font-family: var(--sans); }
+    .btn-line:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-block { display: block; width: 100%; text-align: center; padding: 0.75rem; border-radius: 8px; font-size: 0.9rem; font-weight: 500; text-decoration: none; transition: all 0.2s; font-family: var(--sans); }
+    .btn-block-gold { background: var(--gold); color: #07090f; }
+    .btn-block-gold:hover { background: var(--gold-l); }
+    .btn-block-line { border: 1px solid var(--border2); color: var(--text); background: transparent; }
+    .btn-block-line:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* LAYOUT */
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 6rem 2.5rem; }
+    .wrap-sm { max-width: 760px; margin: 0 auto; padding: 6rem 2.5rem; }
+    hr.div { border: none; border-top: 1px solid var(--border); max-width: 1100px; margin: 0 auto; }
+
+    /* BADGE */
+    .badge { display: inline-block; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); background: var(--gold-dim); border: 1px solid rgba(196,149,42,0.25); padding: 0.2rem 0.7rem; border-radius: 4px; margin-bottom: 1.25rem; }
+
+    /* HEADINGS */
+    h1 { font-family: var(--serif); font-size: clamp(3rem, 6.5vw, 5.25rem); font-weight: 500; line-height: 1.06; letter-spacing: -0.01em; }
+    h2 { font-family: var(--serif); font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 500; line-height: 1.15; margin-bottom: 1rem; }
+    h3 { font-family: var(--serif); font-size: 1.5rem; font-weight: 500; margin-bottom: 0.5rem; }
+    em { font-style: italic; color: var(--gold-l); }
+    .sub { font-size: 1.05rem; color: var(--text2); max-width: 580px; margin-bottom: 2.5rem; }
+    .sub-c { margin-left: auto; margin-right: auto; text-align: center; }
+
+    /* HERO */
+    .hero {
+      min-height: 92vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 5rem 2.5rem; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -160px; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 900px;
+      background: radial-gradient(circle, rgba(196,149,42,0.055) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    .eyebrow { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; opacity: 0; animation: fu 0.8s 0.15s forwards; }
+    .hero h1 { margin-bottom: 1.5rem; opacity: 0; animation: fu 0.8s 0.35s forwards; }
+    .hero .sub { opacity: 0; animation: fu 0.8s 0.55s forwards; margin-bottom: 2.5rem; }
+    .fork-wrap { opacity: 0; animation: fu 0.8s 0.75s forwards; width: 100%; max-width: 680px; }
+    .footnote { opacity: 0; animation: fu 0.8s 0.95s forwards; font-size: 0.8rem; color: var(--text3); margin-top: 1.5rem; }
+    .footnote a { color: var(--gold); text-decoration: none; }
+
+    /* FORK */
+    .fork-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .fork-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem 1.5rem; text-decoration: none; text-align: left; display: flex; flex-direction: column; gap: 0.6rem; transition: all 0.25s; }
+    .fork-card:hover { border-color: var(--gold); background: var(--bg3); transform: translateY(-3px); }
+    .fork-icon { font-size: 1.6rem; }
+    .fork-card h3 { font-family: var(--serif); font-size: 1.35rem; font-weight: 500; color: var(--text); margin: 0; }
+    .fork-card p { font-size: 0.85rem; color: var(--text2); line-height: 1.5; margin: 0; }
+    .fork-arrow { margin-top: 0.5rem; color: var(--gold); font-size: 0.85rem; font-weight: 500; }
+
+    /* PROOF BAR */
+    .proof { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.25rem 2.5rem; text-align: center; }
+    .proof p { font-family: var(--mono); font-size: 0.75rem; color: var(--text2); letter-spacing: 0.04em; line-height: 1.8; }
+    .proof span { color: var(--gold-l); }
+
+    /* PAIN / FIX GRIDS */
+    .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px,1fr)); gap: 0.6rem; margin-bottom: 2.5rem; }
+    .pain-item { display: flex; align-items: flex-start; gap: 0.65rem; padding: 0.8rem 0.9rem; background: rgba(248,113,113,0.05); border: 1px solid rgba(248,113,113,0.14); border-radius: 7px; font-size: 0.875rem; line-height: 1.4; }
+    .pain-item::before { content: '✕'; color: var(--red); font-size: 0.7rem; margin-top: 0.25rem; flex-shrink: 0; }
+    .fix-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px,1fr)); gap: 0.6rem; margin-bottom: 2.5rem; }
+    .fix-item { display: flex; align-items: flex-start; gap: 0.65rem; padding: 0.8rem 0.9rem; background: rgba(52,211,153,0.05); border: 1px solid rgba(52,211,153,0.14); border-radius: 7px; font-size: 0.875rem; line-height: 1.4; }
+    .fix-item::before { content: '✓'; color: var(--green); font-size: 0.8rem; margin-top: 0.15rem; flex-shrink: 0; }
+
+    /* CARDS */
+    .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; }
+    .card h4 { font-family: var(--serif); font-size: 1.2rem; font-weight: 500; margin-bottom: 0.6rem; }
+    .card p { font-size: 0.875rem; color: var(--text2); line-height: 1.6; }
+    .mono-label { font-family: var(--mono); font-size: 0.65rem; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem; }
+    .grid-auto { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 1rem; }
+
+    /* DREAM */
+    .dream-col { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; }
+    .dream-col h4 { font-family: var(--serif); font-size: 1.15rem; font-weight: 500; color: var(--gold-l); margin-bottom: 1.25rem; }
+    .dream-item { display: flex; align-items: flex-start; gap: 0.7rem; padding: 0.55rem 0; border-bottom: 1px solid var(--border); font-size: 0.875rem; color: var(--text2); }
+    .dream-item:last-child { border-bottom: none; }
+    .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); margin-top: 0.55rem; flex-shrink: 0; }
+
+    /* STEPS */
+    .steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; margin: 2rem 0 2.5rem; }
+    .step { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; }
+    .step-n { font-family: var(--mono); font-size: 0.65rem; color: var(--gold); letter-spacing: 0.15em; margin-bottom: 0.9rem; }
+    .step h4 { font-family: var(--serif); font-size: 1.2rem; font-weight: 500; margin-bottom: 0.6rem; }
+    .step p { font-size: 0.875rem; color: var(--text2); line-height: 1.6; }
+
+    /* WINDOW MOCKUP */
+    .mockup { background: #050710; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin: 3rem 0; }
+    .mockup-bar { background: #090c18; border-bottom: 1px solid var(--border); padding: 0.6rem 1rem; display: flex; align-items: center; gap: 0.45rem; }
+    .d { width: 10px; height: 10px; border-radius: 50%; }
+    .d-r { background: #ff5f57; } .d-y { background: #febc2e; } .d-g { background: #28c840; }
+    .mockup-bar span { font-family: var(--mono); font-size: 0.68rem; color: var(--text3); margin-left: 0.5rem; }
+    .mockup-body { display: grid; grid-template-columns: 1fr 1fr 1fr; min-height: 300px; }
+    .panel { padding: 1.1rem; border-right: 1px solid var(--border); }
+    .panel:last-child { border-right: none; }
+    .panel-lbl { font-family: var(--mono); font-size: 0.62rem; color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 1rem; }
+    .msg { margin-bottom: 0.6rem; }
+    .msg-u { text-align: right; }
+    .bubble { display: inline-block; padding: 0.375rem 0.7rem; border-radius: 7px; font-size: 0.72rem; line-height: 1.45; max-width: 88%; }
+    .bubble-u { background: rgba(196,149,42,0.18); color: var(--gold-l); }
+    .bubble-a { background: var(--bg3); border: 1px solid var(--border); color: var(--text); }
+    .approve-box { background: rgba(196,149,42,0.08); border: 1px solid rgba(196,149,42,0.25); border-radius: 6px; padding: 0.5rem 0.7rem; margin-top: 0.75rem; }
+    .approve-lbl { font-family: var(--mono); font-size: 0.6rem; color: var(--gold); margin-bottom: 0.25rem; letter-spacing: 0.1em; }
+    .approve-cmd { font-family: var(--mono); font-size: 0.66rem; color: var(--text2); margin-bottom: 0.5rem; }
+    .approve-btns { display: flex; gap: 0.4rem; }
+    .approve-btn { border: none; border-radius: 4px; padding: 0.2rem 0.65rem; font-size: 0.66rem; font-weight: 600; cursor: pointer; font-family: var(--sans); }
+    .approve-btn-go { background: var(--gold); color: #07090f; }
+    .approve-btn-skip { background: transparent; border: 1px solid var(--border2); color: var(--text2); }
+    .tl { font-family: var(--mono); font-size: 0.68rem; line-height: 1.85; }
+    .tl-g { color: #4ade80; }
+    .tl-r { color: var(--red); }
+    .tl-d { color: var(--text3); }
+    .tl-p::before { content: '$ '; color: var(--gold); }
+    .tl-o { color: #86efac; }
+
+    /* PRICING */
+    .pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
+    .p-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+    .p-card.p-feat { border-color: var(--gold); background: var(--bg3); }
+    .p-price { font-size: 2.25rem; font-weight: 600; line-height: 1; }
+    .p-price span { font-size: 0.95rem; font-weight: 400; color: var(--text2); }
+    .p-desc { font-size: 0.875rem; color: var(--text2); line-height: 1.55; flex: 1; }
+    .p-list { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+    .p-list li { font-size: 0.84rem; color: var(--text2); display: flex; align-items: flex-start; gap: 0.5rem; }
+    .p-list li::before { content: '—'; color: var(--gold); flex-shrink: 0; }
+    .p-cta { margin-top: auto; }
+
+    /* FOUNDER */
+    .founder { background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 0 12px 12px 0; padding: 2.5rem; }
+    .founder blockquote { font-family: var(--serif); font-size: 1.25rem; font-style: italic; line-height: 1.75; color: var(--text); margin-bottom: 1.25rem; }
+    .founder-attr { font-size: 0.875rem; color: var(--text2); }
+
+    /* CTA SECTION */
+    .cta-card { text-align: center; }
+    .cta-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+    .cta-card h4 { font-family: var(--serif); font-size: 1.3rem; font-weight: 500; margin-bottom: 0.4rem; }
+    .cta-card p { font-size: 0.875rem; color: var(--text2); margin-bottom: 1.25rem; line-height: 1.5; }
+
+    /* AGENTS ROW */
+    .agents-row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; margin: 1rem 0; }
+    .agent-tag { background: var(--bg2); border: 1px solid var(--border); border-radius: 5px; padding: 0.3rem 0.85rem; font-family: var(--mono); font-size: 0.72rem; color: var(--text2); }
+
+    /* FOOTER */
+    footer { padding: 2rem 2.5rem; text-align: center; border-top: 1px solid var(--border); }
+    .foot-logo { font-family: var(--serif); font-size: 1.35rem; color: var(--gold); display: block; margin-bottom: 0.5rem; }
+    footer p { font-size: 0.8rem; color: var(--text3); }
+    footer a { color: var(--gold); text-decoration: none; }
+
+    /* STICKY CTA */
+    .sticky { position: fixed; bottom: 1.5rem; right: 1.5rem; background: var(--gold); color: #07090f; padding: 0.7rem 1.4rem; border-radius: 8px; font-weight: 600; font-size: 0.875rem; text-decoration: none; z-index: 50; transition: all 0.2s; box-shadow: 0 4px 24px rgba(196,149,42,0.28); }
+    .sticky:hover { background: var(--gold-l); transform: translateY(-2px); }
+
+    /* ANIMATIONS */
+    @keyframes fu { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    .reveal-d1 { transition-delay: 0.1s; } .reveal-d2 { transition-delay: 0.2s; } .reveal-d3 { transition-delay: 0.3s; }
+
+    /* RESPONSIVE */
+    @media (max-width: 800px) {
+      .fork-grid, .grid2, .grid3, .steps, .pricing-grid, .mockup-body { grid-template-columns: 1fr; }
+      .panel { border-right: none; border-bottom: 1px solid var(--border); }
+      .panel:last-child { border-bottom: none; }
+      nav .nav-links li:not(:last-child) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<a href="#book" class="sticky">Book Free Call →</a>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Gubernator</a>
+  <ul class="nav-links">
+    <li><a href="#existing">Existing Users</a></li>
+    <li><a href="#new">New to Agents</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#book" class="btn-nav">Free Call</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="eyebrow">gubernator.co — AI Agent Control</p>
+  <h1>Your AI agent,<br><em>finally under control.</em></h1>
+  <p class="sub" style="margin-left:auto;margin-right:auto;text-align:center;">AI agents can run your inbox, manage your calendar, watch your business, and alert you to opportunities — 24 hours a day, on a $5 server. We help you build yours, fix yours, and keep it running.</p>
+  <div class="fork-wrap">
+    <div class="fork-grid">
+      <a href="#existing" class="fork-card">
+        <div class="fork-icon">⚡</div>
+        <h3>I already have an agent</h3>
+        <p>OpenClaw, Hermes, or similar — installed but not getting the value I want.</p>
+        <div class="fork-arrow">Show me how to fix it →</div>
+      </a>
+      <a href="#new" class="fork-card">
+        <div class="fork-icon">🚀</div>
+        <h3>I don't have an agent yet</h3>
+        <p>I want one but don't know where to start or what it can actually do for me.</p>
+        <div class="fork-arrow">Show me what's possible →</div>
+      </a>
+    </div>
+  </div>
+  <p class="footnote">Not sure where you fit? <a href="#book">Book a free 15-minute call</a> — a real human, no pitch, just answers.</p>
+</section>
+
+<!-- PROOF BAR -->
+<div class="proof">
+  <p>
+    Built with Gubernator: <span>150,000+ emails triaged automatically</span> &nbsp;·&nbsp; <span>Telegram trade alerts running 24/7</span> &nbsp;·&nbsp; <span>Twitter signal monitoring</span> &nbsp;·&nbsp; <span>2 live websites managed via cPanel &amp; DB</span><br>
+    All running on a $5 VPS. Zero terminal commands after setup.
+  </p>
+</div>
+
+<!-- ===== EXISTING USERS ===== -->
+<section id="existing">
+  <div class="wrap">
+
+    <div class="reveal">
+      <div class="badge">Already have an agent?</div>
+      <h2>Your agent is installed.<br><em>So why isn't it working?</em></h2>
+      <p class="sub">You did the hard part. You got OpenClaw or Hermes running on a server. And now it's not doing what you hoped. Here's what's actually going on — and how we fix it.</p>
+    </div>
+
+    <div class="pain-grid reveal reveal-d1">
+      <div class="pain-item">Bot installed but not responding</div>
+      <div class="pain-item">Integrations half-working or silently broken</div>
+      <div class="pain-item">Agent looping, burning tokens on nothing</div>
+      <div class="pain-item">Can't get email / Telegram / Twitter connected</div>
+      <div class="pain-item">Bot forgets what it built last session</div>
+      <div class="pain-item">No idea if it's running, stuck, or going wrong</div>
+      <div class="pain-item">Logs that make no sense</div>
+      <div class="pain-item">Worked yesterday. Broken today. No idea why.</div>
+    </div>
+
+    <p style="color:var(--text2);font-style:italic;margin-bottom:3rem;max-width:680px;" class="reveal">None of this means you did something wrong. AI agents are powerful and fragile at the same time — they need supervision, tuning, and sometimes a complete reset. That's exactly what Gubernator is for.</p>
+
+    <div class="reveal">
+      <div class="badge">Real fixes made with Gubernator</div>
+    </div>
+
+    <div class="fix-grid reveal reveal-d1">
+      <div class="fix-item">Got email working — agent now checks inbox twice daily</div>
+      <div class="fix-item">Wired Telegram alerts for live trade signals</div>
+      <div class="fix-item">Fixed broken cPanel integration — agent manages two live websites</div>
+      <div class="fix-item">Set up a MySQL database from scratch via natural language</div>
+      <div class="fix-item">Stopped a token-burning loop costing $40/day</div>
+      <div class="fix-item">Built custom skills to extend agent capabilities</div>
+      <div class="fix-item">Full security audit — credentials secured, permissions locked</div>
+      <div class="fix-item">Rebuilt broken skill library after an agent update</div>
+    </div>
+
+    <div class="grid3 reveal" style="margin-bottom:3rem;">
+      <div class="card">
+        <div class="mono-label">01 — Diagnose</div>
+        <h4>Claude reads everything</h4>
+        <p>Describe what's broken in plain English. Claude reads your live logs, terminal output, and agent TUI — and tells you exactly what went wrong.</p>
+      </div>
+      <div class="card">
+        <div class="mono-label">02 — Fix</div>
+        <h4>You approve, it executes</h4>
+        <p>Claude proposes the fix and shows you exactly what it's about to run. One click to approve. Nothing executes without your say-so.</p>
+      </div>
+      <div class="card">
+        <div class="mono-label">03 — Supervise</div>
+        <h4>Stays on track</h4>
+        <p>Claude watches every output turn. If the agent drifts, loops, or misunderstands a task — Claude catches it and intervenes before it compounds.</p>
+      </div>
+    </div>
+
+    <div class="grid-auto reveal">
+      <div class="card" style="border-color:var(--gold);text-align:center;">
+        <div class="mono-label" style="margin-bottom:0.4rem;">Try the app</div>
+        <h3>Gubernator</h3>
+        <p style="margin:0.5rem 0 1.25rem;">$29/month · Claude supervises your agent. No terminal required. Cancel anytime.</p>
+        <a href="#pricing" class="btn-block btn-block-gold">Start Free Trial</a>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div class="mono-label" style="margin-bottom:0.4rem;">Fix it with us</div>
+        <h3>Consulting</h3>
+        <p style="margin:0.5rem 0 1.25rem;">Screenshare session. We diagnose and fix your setup live. Most issues resolved in one session. From $150/hr.</p>
+        <a href="#book" class="btn-block btn-block-line">Book a Session</a>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div class="mono-label" style="margin-bottom:0.4rem;">Not sure?</div>
+        <h3>Free 15-Min Call</h3>
+        <p style="margin:0.5rem 0 1.25rem;">Talk to a real expert. Walk away with a clear diagnosis and a plan. No pitch, no commitment.</p>
+        <a href="#book" class="btn-block btn-block-line">Book Free Call</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ===== NEW USERS ===== -->
+<section id="new">
+  <div class="wrap">
+
+    <div class="reveal">
+      <div class="badge">New to AI agents?</div>
+      <h2>Everyone's talking about AI agents.<br><em>Here's what they actually do.</em></h2>
+      <p class="sub">You don't need to be a developer. You don't need to understand servers. You just need to know what you want automated — we'll build the rest.</p>
+    </div>
+
+    <div class="grid2 reveal">
+      <div class="dream-col">
+        <h4>Your personal life</h4>
+        <div class="dream-item"><div class="dot"></div>Reads and triages your inbox every morning</div>
+        <div class="dream-item"><div class="dot"></div>Adds calendar events automatically</div>
+        <div class="dream-item"><div class="dot"></div>Sends a daily briefing on topics you care about</div>
+        <div class="dream-item"><div class="dot"></div>Monitors investments, alerts you to moves</div>
+        <div class="dream-item"><div class="dot"></div>Texts you on Telegram when something matters</div>
+        <div class="dream-item"><div class="dot"></div>Tracks flight prices for upcoming trips</div>
+        <div class="dream-item"><div class="dot"></div>Watches prices on things you want to buy</div>
+      </div>
+      <div class="dream-col">
+        <h4>Your business</h4>
+        <div class="dream-item"><div class="dot"></div>Updates your website content on command</div>
+        <div class="dream-item"><div class="dot"></div>Monitors competitors and market signals</div>
+        <div class="dream-item"><div class="dot"></div>Manages databases and runs backups</div>
+        <div class="dream-item"><div class="dot"></div>Tracks social mentions, flags opportunities</div>
+        <div class="dream-item"><div class="dot"></div>Monitors Twitter for trade setups and signals</div>
+        <div class="dream-item"><div class="dot"></div>Files daily research reports to your inbox</div>
+        <div class="dream-item"><div class="dot"></div>Automates the workflows that eat your afternoons</div>
+      </div>
+    </div>
+
+    <div class="card reveal" style="text-align:center;margin:2rem 0;padding:2.5rem;">
+      <p style="font-family:var(--serif);font-size:1.3rem;font-style:italic;color:var(--text2);margin-bottom:0.4rem;">"This is all running right now — on someone's $5 server. Not at a big company.</p>
+      <p style="font-family:var(--serif);font-size:1.3rem;font-style:italic;color:var(--gold-l);">Just a person who decided to stop doing things manually."</p>
+    </div>
+
+    <div class="reveal">
+      <h3 style="font-size:1.75rem;margin-bottom:0.75rem;">Why hasn't everyone done this yet?</h3>
+      <p style="color:var(--text2);max-width:680px;margin-bottom:0.75rem;">Because until recently, setting up an AI agent meant SSH terminals, Python version conflicts, YAML files, and a weekend of frustration. Most people tried once, hit a wall, and gave up.</p>
+      <p style="font-weight:500;font-size:1.05rem;">That's the exact problem Gubernator solves.</p>
+    </div>
+
+    <div class="steps reveal" style="margin-top:2.5rem;">
+      <div class="step">
+        <div class="step-n">Step 01</div>
+        <h4>The Free Call</h4>
+        <p>Tell us what you do, what eats your time, and what you wish ran automatically. We'll tell you exactly what an agent could do for your life and business. Most people are genuinely surprised.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">Step 02</div>
+        <h4>We Build It Together</h4>
+        <p>Screenshare session. We design your agent, get it running, wire up your integrations. You watch it happen in real time. No black boxes — you understand exactly what it's doing.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">Step 03</div>
+        <h4>Gubernator Keeps It Running</h4>
+        <p>Claude supervises your agent around the clock. Watching for issues, catching failures, extending capabilities whenever you want something new added.</p>
+      </div>
+    </div>
+
+    <div class="grid-auto reveal">
+      <div class="card" style="border-color:var(--gold);text-align:center;">
+        <div class="mono-label" style="margin-bottom:0.4rem;">Best starting point</div>
+        <h3>Free 15-Min Call</h3>
+        <p style="margin:0.5rem 0 1.25rem;">Tell us your goals. We'll tell you what's possible. A real human expert — zero commitment, zero pitch.</p>
+        <a href="#book" class="btn-block btn-block-gold">Book Free Call</a>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div class="mono-label" style="margin-bottom:0.4rem;">Done for you</div>
+        <h3>Consulting</h3>
+        <p style="margin:0.5rem 0 1.25rem;">We build your agent live on a screenshare. Walk away with a running bot, wired integrations, and no unanswered questions. From $150/hr.</p>
+        <a href="#book" class="btn-block btn-block-line">Book a Session</a>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div class="mono-label" style="margin-bottom:0.4rem;">Already know what you want</div>
+        <h3>Gubernator App</h3>
+        <p style="margin:0.5rem 0 1.25rem;">Jump in. Claude guides the entire setup. No terminal required. $29/month, cancel anytime.</p>
+        <a href="#pricing" class="btn-block btn-block-line">Start Free Trial</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ===== HOW IT WORKS ===== -->
+<section id="how">
+  <div class="wrap">
+
+    <div class="reveal">
+      <div class="badge">How Gubernator works</div>
+      <h2>Three windows.<br><em>Total visibility.</em></h2>
+      <p class="sub">Claude on the left. Your live agent screen in the middle. Your VPS terminal on the right. For the first time you can see exactly what your agent is doing — and so can Claude.</p>
+    </div>
+
+    <!-- WINDOW MOCKUP -->
+    <div class="mockup reveal">
+      <div class="mockup-bar">
+        <div class="d d-r"></div><div class="d d-y"></div><div class="d d-g"></div>
+        <span>Gubernator — VPS Connected · OpenClaw Running</span>
+      </div>
+      <div class="mockup-body">
+        <div class="panel">
+          <div class="panel-lbl">Claude</div>
+          <div class="msg msg-u"><div class="bubble bubble-u">My Telegram stopped sending alerts</div></div>
+          <div class="msg"><div class="bubble bubble-a">I can see the service crashed about 2 hours ago. The Telegram token in your .env looks expired. I'll write a corrected config and restart the service — approve when ready.</div></div>
+          <div class="approve-box">
+            <div class="approve-lbl">Proposed Action</div>
+            <div class="approve-cmd">sftp write /home/agent/.env → restart agent.service</div>
+            <div class="approve-btns">
+              <button class="approve-btn approve-btn-go">Approve</button>
+              <button class="approve-btn approve-btn-skip">Skip</button>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-lbl">Agent TUI — Live</div>
+          <div class="tl tl-g">[OpenClaw v2.1] Starting...</div>
+          <div class="tl tl-o">✓ Memory loaded (847 items)</div>
+          <div class="tl tl-o">✓ Skills loaded (12 active)</div>
+          <div class="tl tl-r">✗ Telegram: AUTH_FAILED</div>
+          <div class="tl tl-d">Retrying in 30s...</div>
+          <div class="tl tl-d">Retrying in 30s...</div>
+          <div class="tl tl-d">Retrying in 30s...</div>
+          <div class="tl tl-d" style="margin-top:0.5rem;">[agent idle — awaiting correction]</div>
+        </div>
+        <div class="panel">
+          <div class="panel-lbl">VPS Terminal</div>
+          <div class="tl tl-p">cat /home/agent/.env</div>
+          <div class="tl tl-o">TELEGRAM_TOKEN=6843...[expired]</div>
+          <div class="tl tl-o">OPENAI_KEY=sk-proj-...</div>
+          <div class="tl tl-p">systemctl status agent</div>
+          <div class="tl tl-r">● agent.service — FAILED</div>
+          <div class="tl tl-d">  Exit code: 1 (2h 04m ago)</div>
+          <div class="tl tl-d" style="margin-top:0.5rem;">[awaiting your approval...]</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid3 reveal" style="margin-bottom:1rem;">
+      <div>
+        <div class="mono-label">Works with agents</div>
+        <div class="agents-row">
+          <span class="agent-tag">OpenClaw</span>
+          <span class="agent-tag">Hermes</span>
+          <span class="agent-tag">+ more coming</span>
+        </div>
+      </div>
+      <div>
+        <div class="mono-label">AI models</div>
+        <div class="agents-row">
+          <span class="agent-tag">Claude</span>
+          <span class="agent-tag">ChatGPT</span>
+          <span class="agent-tag">Grok</span>
+        </div>
+      </div>
+      <div>
+        <div class="mono-label">Security</div>
+        <p style="font-size:0.875rem;color:var(--text2);margin-top:0.75rem;">Nothing executes without your explicit approval. Credentials go directly to the server — never through chat.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ===== PRICING ===== -->
+<section id="pricing">
+  <div class="wrap">
+
+    <div class="reveal" style="text-align:center;">
+      <div class="badge">Pricing</div>
+      <h2>Three ways to get<br><em>your agent running</em></h2>
+      <p class="sub sub-c">Start with a conversation. Build with our help. Stay in control with the app.</p>
+    </div>
+
+    <div class="pricing-grid reveal">
+      <div class="p-card">
+        <div class="mono-label">Start here</div>
+        <h3>Free Discovery Call</h3>
+        <div class="p-price">$0 <span>· 15 min</span></div>
+        <p class="p-desc">Talk to a real bot expert. Tell us your goals. We'll tell you exactly what's possible and whether an agent is the right fit. No pitch, no obligation.</p>
+        <ul class="p-list">
+          <li>Understand what agents can do for you</li>
+          <li>Personal and business use cases</li>
+          <li>Clear next steps — no commitment</li>
+          <li>Human expert, not a chatbot</li>
+        </ul>
+        <div class="p-cta"><a href="#book" class="btn-block btn-block-line">Book Free Call</a></div>
+      </div>
+
+      <div class="p-card p-feat">
+        <div class="mono-label">Most popular</div>
+        <h3>Gubernator App</h3>
+        <div class="p-price">$29 <span>/ month</span></div>
+        <p class="p-desc">Claude supervises your agent. Three live windows, full visibility, every action approved by you. No terminal expertise needed. Cancel anytime.</p>
+        <ul class="p-list">
+          <li>Works with OpenClaw, Hermes + more</li>
+          <li>Claude-assisted setup and debugging</li>
+          <li>Live TUI + terminal + chat in one view</li>
+          <li>Session logging and audit trail</li>
+          <li>Use Claude, ChatGPT, or Grok</li>
+          <li>Mac app now · Web app coming soon</li>
+        </ul>
+        <div class="p-cta"><a href="#" class="btn-block btn-block-gold">Start Free Trial</a></div>
+      </div>
+
+      <div class="p-card">
+        <div class="mono-label">Done for you</div>
+        <h3>Consulting</h3>
+        <div class="p-price">$150 <span>/ hour</span></div>
+        <p class="p-desc">We build your agent with you on a screenshare. Setup, integrations, skills, cron jobs, security audit. Most agents go live in a single session.</p>
+        <ul class="p-list">
+          <li>Discovery call to understand your goals</li>
+          <li>Email, Telegram, Twitter, API setup</li>
+          <li>cPanel, database, website management</li>
+          <li>Custom skill development</li>
+          <li>Full security audit included</li>
+        </ul>
+        <div class="p-cta"><a href="#book" class="btn-block btn-block-line">Book a Session</a></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ===== FOUNDER ===== -->
+<section>
+  <div class="wrap">
+    <div class="reveal">
+      <div class="badge">From the founder</div>
+      <div class="founder">
+        <blockquote>"I built Gubernator because I needed it myself. My agent now checks my email twice a day, sends Telegram alerts for trade signals, monitors Twitter for opportunities, and manages two live websites — including content updates and database management. It runs while I sleep on a $5 server. I didn't write a single terminal command to get it set up. Now I help others do the same."</blockquote>
+        <div class="founder-attr">Founder, Gubernator.co</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- ===== FINAL CTA ===== -->
+<section id="book">
+  <div class="wrap" style="text-align:center;">
+    <div class="reveal">
+      <div class="badge">Get started today</div>
+      <h2>Ready to meet<br><em>your agent?</em></h2>
+      <p class="sub sub-c">Pick the path that fits. All three end in the same place — a live agent running for you 24/7.</p>
+    </div>
+
+    <div class="grid3 reveal" style="margin-bottom:3rem;">
+      <div class="cta-card">
+        <div class="cta-icon">📞</div>
+        <h4>Curious</h4>
+        <p>Free 15-min call. Tell us your goals. A real human expert. No pitch — just answers.</p>
+        <a href="mailto:hello@gubernator.co?subject=Free 15-Min Call" class="btn-block btn-block-line">Book Free Call</a>
+      </div>
+      <div class="cta-card">
+        <div class="cta-icon">🔧</div>
+        <h4>Ready to Build</h4>
+        <p>Consulting session. We build your agent with you on a screenshare. From $150/hr.</p>
+        <a href="mailto:hello@gubernator.co?subject=Consulting Session" class="btn-block btn-block-line">Book a Session</a>
+      </div>
+      <div class="cta-card">
+        <div class="cta-icon">🖥️</div>
+        <h4>Already Running</h4>
+        <p>Gubernator app. Claude keeps your agent healthy, supervised, and on track. $29/month.</p>
+        <a href="#" class="btn-block btn-block-gold">Start Free Trial</a>
+      </div>
+    </div>
+
+    <p style="font-size:0.8125rem;color:var(--text3);">No terminal required. No long-term commitment. Cancel the app anytime.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="foot-logo">Gubernator</span>
+  <p>© 2025 Gubernator.co &nbsp;·&nbsp; Your AI agent, finally under control.</p>
+  <p style="margin-top:0.5rem;"><a href="mailto:hello@gubernator.co">hello@gubernator.co</a></p>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
