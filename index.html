@@ -37,7 +37,8 @@
       padding: 0 2.5rem; height: 62px;
       display: flex; align-items: center; justify-content: space-between;
     }
-    .logo { font-family: var(--serif); font-size: 1.5rem; font-weight: 500; color: var(--gold-l); text-decoration: none; letter-spacing: 0.02em; }
+    .logo { text-decoration: none; display: flex; align-items: center; }
+    .logo img { height: 38px; width: auto; }
     .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
     .nav-links a { color: var(--text2); text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
     .nav-links a:hover { color: var(--text); }
@@ -221,7 +222,7 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="logo">Gubernator</a>
+  <a href="#" class="logo"><img src="assets/images/logo.png" alt="Gubernator"></a>
   <ul class="nav-links">
     <li><a href="#existing">Existing Users</a></li>
     <li><a href="#new">New to Agents</a></li>
@@ -443,48 +444,9 @@
       <p class="sub">Claude on the left. Your live agent screen in the middle. Your VPS terminal on the right. For the first time you can see exactly what your agent is doing — and so can Claude.</p>
     </div>
 
-    <!-- WINDOW MOCKUP -->
-    <div class="mockup reveal">
-      <div class="mockup-bar">
-        <div class="d d-r"></div><div class="d d-y"></div><div class="d d-g"></div>
-        <span>Gubernator — VPS Connected · OpenClaw Running</span>
-      </div>
-      <div class="mockup-body">
-        <div class="panel">
-          <div class="panel-lbl">Claude</div>
-          <div class="msg msg-u"><div class="bubble bubble-u">My Telegram stopped sending alerts</div></div>
-          <div class="msg"><div class="bubble bubble-a">I can see the service crashed about 2 hours ago. The Telegram token in your .env looks expired. I'll write a corrected config and restart the service — approve when ready.</div></div>
-          <div class="approve-box">
-            <div class="approve-lbl">Proposed Action</div>
-            <div class="approve-cmd">sftp write /home/agent/.env → restart agent.service</div>
-            <div class="approve-btns">
-              <button class="approve-btn approve-btn-go">Approve</button>
-              <button class="approve-btn approve-btn-skip">Skip</button>
-            </div>
-          </div>
-        </div>
-        <div class="panel">
-          <div class="panel-lbl">Agent TUI — Live</div>
-          <div class="tl tl-g">[OpenClaw v2.1] Starting...</div>
-          <div class="tl tl-o">✓ Memory loaded (847 items)</div>
-          <div class="tl tl-o">✓ Skills loaded (12 active)</div>
-          <div class="tl tl-r">✗ Telegram: AUTH_FAILED</div>
-          <div class="tl tl-d">Retrying in 30s...</div>
-          <div class="tl tl-d">Retrying in 30s...</div>
-          <div class="tl tl-d">Retrying in 30s...</div>
-          <div class="tl tl-d" style="margin-top:0.5rem;">[agent idle — awaiting correction]</div>
-        </div>
-        <div class="panel">
-          <div class="panel-lbl">VPS Terminal</div>
-          <div class="tl tl-p">cat /home/agent/.env</div>
-          <div class="tl tl-o">TELEGRAM_TOKEN=6843...[expired]</div>
-          <div class="tl tl-o">OPENAI_KEY=sk-proj-...</div>
-          <div class="tl tl-p">systemctl status agent</div>
-          <div class="tl tl-r">● agent.service — FAILED</div>
-          <div class="tl tl-d">  Exit code: 1 (2h 04m ago)</div>
-          <div class="tl tl-d" style="margin-top:0.5rem;">[awaiting your approval...]</div>
-        </div>
-      </div>
+    <!-- APP SCREENSHOT -->
+    <div class="reveal" style="margin: 3rem 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 8px 48px rgba(0,0,0,0.5);">
+      <img src="assets/images/screenshot.png" alt="Gubernator app — three-panel view with Claude, Agent TUI, and VPS terminal" style="width:100%;display:block;">
     </div>
 
     <div class="grid3 reveal" style="margin-bottom:1rem;">
