@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gubernator — Your AI Agent, Finally Under Control</title>
   <meta name="description" content="Gubernator is an AI Agent Control Panel. Claude supervises an OpenClaw agent on your own VPS to run real work — no terminal required after setup. $29/month, 14-day free trial.">
-  <link rel="icon" type="image/png" href="assets/images/logo.png">
+  <link rel="icon" type="image/png" href="assets/images/wheel.png">
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://gubernator.co/">
@@ -50,8 +50,9 @@
       padding: 0 2.5rem; height: 62px;
       display: flex; align-items: center; justify-content: space-between;
     }
-    .logo { text-decoration: none; display: flex; align-items: center; }
-    .logo img { height: 38px; width: auto; }
+    .logo { text-decoration: none; display: flex; align-items: center; gap: 0.55rem; }
+    .logo .logo-wheel { height: 34px; width: auto; }
+    .logo .logo-word { height: 20px; width: auto; }
     .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
     .nav-links a { color: var(--text2); text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
     .nav-links a:hover { color: var(--text); }
@@ -96,6 +97,10 @@
       background: radial-gradient(circle, rgba(196,149,42,0.055) 0%, transparent 68%);
       pointer-events: none;
     }
+    .hero-logo { opacity: 0; animation: fu 0.8s 0.05s forwards; display: flex; flex-direction: column; align-items: center; gap: 0.85rem; margin-bottom: 2rem; }
+    .hero-logo .hero-wheel { width: 132px; height: auto; max-width: 38vw; filter: drop-shadow(0 6px 28px rgba(88,166,255,0.18)); }
+    .hero-logo .hero-word { width: 300px; height: auto; max-width: 78vw; }
+    .hero-logo .hero-tagline { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--text2); }
     .eyebrow { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; opacity: 0; animation: fu 0.8s 0.15s forwards; }
     .hero h1 { margin-bottom: 1.5rem; opacity: 0; animation: fu 0.8s 0.35s forwards; }
     .hero .sub { opacity: 0; animation: fu 0.8s 0.55s forwards; margin-bottom: 2.5rem; }
@@ -235,7 +240,10 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="logo"><img src="assets/images/logo.png" alt="Gubernator"></a>
+  <a href="#" class="logo">
+    <img class="logo-wheel" src="assets/images/wheel.png" alt="">
+    <img class="logo-word" src="assets/images/wordmark.png" alt="Gubernator.io">
+  </a>
   <ul class="nav-links">
     <li><a href="#existing">Existing Users</a></li>
     <li><a href="#new">New to Agents</a></li>
@@ -247,7 +255,11 @@
 
 <!-- HERO -->
 <section class="hero">
-  <p class="eyebrow">gubernator.co — AI Agent Control</p>
+  <div class="hero-logo">
+    <img class="hero-wheel" src="assets/images/wheel.png" alt="Gubernator">
+    <img class="hero-word" src="assets/images/wordmark.png" alt="Gubernator.io">
+    <p class="hero-tagline">Steer your AI agent</p>
+  </div>
   <h1>Your AI agent,<br><em>finally under control.</em></h1>
   <p class="sub" style="margin-left:auto;margin-right:auto;text-align:center;">AI agents can run your inbox, manage your calendar, watch your business, and alert you to opportunities — 24 hours a day, on a low-cost VPS. We help you build yours, fix yours, and keep it running.</p>
   <div class="fork-wrap">
