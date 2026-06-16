@@ -358,7 +358,7 @@
         <div class="mono-label" style="margin-bottom:0.4rem;">Fix it with us</div>
         <h3>Consulting</h3>
         <p style="margin:0.5rem 0 1.25rem;">Screenshare session. We diagnose and fix your setup live. Most issues resolved in one session. From $150/hr.</p>
-        <a href="#book" class="btn-block btn-block-line">Book a Session</a>
+        <a href="https://calendly.com/gubernator/1-hour-consulting-session-150" target="_blank" rel="noopener" data-calendly-consult class="btn-block btn-block-line">Book a Session</a>
       </div>
       <div class="card" style="text-align:center;">
         <div class="mono-label" style="margin-bottom:0.4rem;">Not sure?</div>
@@ -446,7 +446,7 @@
         <div class="mono-label" style="margin-bottom:0.4rem;">Done for you</div>
         <h3>Consulting</h3>
         <p style="margin:0.5rem 0 1.25rem;">We build your agent live on a screenshare. Walk away with a running bot, wired integrations, and no unanswered questions. From $150/hr.</p>
-        <a href="#book" class="btn-block btn-block-line">Book a Session</a>
+        <a href="https://calendly.com/gubernator/1-hour-consulting-session-150" target="_blank" rel="noopener" data-calendly-consult class="btn-block btn-block-line">Book a Session</a>
       </div>
       <div class="card" style="text-align:center;">
         <div class="mono-label" style="margin-bottom:0.4rem;">Already know what you want</div>
@@ -558,7 +558,7 @@
           <li>Custom skill development</li>
           <li>Full security audit included</li>
         </ul>
-        <div class="p-cta"><a href="#book" class="btn-block btn-block-line">Book a Session</a></div>
+        <div class="p-cta"><a href="https://calendly.com/gubernator/1-hour-consulting-session-150" target="_blank" rel="noopener" data-calendly-consult class="btn-block btn-block-line">Book a Session</a></div>
       </div>
     </div>
 
@@ -602,7 +602,7 @@
         <div class="cta-icon">🔧</div>
         <h4>Ready to Build</h4>
         <p>Consulting session. We build your agent with you on a screenshare. From $150/hr.</p>
-        <a href="mailto:support@gubernator.co?subject=Consulting Session" class="btn-block btn-block-line">Book a Session</a>
+        <a href="https://calendly.com/gubernator/1-hour-consulting-session-150" target="_blank" rel="noopener" data-calendly-consult class="btn-block btn-block-line">Book a Session</a>
       </div>
       <div class="cta-card">
         <div class="cta-icon">🖥️</div>
@@ -645,10 +645,17 @@
     }
   });
 
+  const CALENDLY_CONSULT = 'https://calendly.com/gubernator/1-hour-consulting-session-150';
+
   // Inline buttons open the popup instead of navigating
   document.querySelectorAll('a[data-calendly]').forEach(function (a) {
     a.addEventListener('click', function (e) {
       if (window.Calendly) { e.preventDefault(); Calendly.initPopupWidget({ url: CALENDLY_FREE }); }
+    });
+  });
+  document.querySelectorAll('a[data-calendly-consult]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      if (window.Calendly) { e.preventDefault(); Calendly.initPopupWidget({ url: CALENDLY_CONSULT }); }
     });
   });
 </script>
