@@ -17,6 +17,9 @@
   <meta name="twitter:title" content="Gubernator — Your AI Agent, Finally Under Control">
   <meta name="twitter:description" content="Claude supervises an OpenClaw agent on your own VPS to run real work — no terminal required. $29/month, 14-day free trial.">
   <meta name="twitter:image" content="https://gubernator.co/assets/images/screenshot.png">
+  <!-- Calendly -->
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
@@ -236,7 +239,6 @@
 </head>
 <body>
 
-<a href="#book" class="sticky">Book Free Call →</a>
 
 <!-- NAV -->
 <nav>
@@ -249,7 +251,7 @@
     <li><a href="#new">New to Agents</a></li>
     <li><a href="#how">How It Works</a></li>
     <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#book" class="btn-nav">Free Call</a></li>
+    <li><a href="https://calendly.com/gubernator/free-15-min-call-tell-us-your-goals-real-human-expert" target="_blank" rel="noopener" data-calendly class="btn-nav">Free Call</a></li>
   </ul>
 </nav>
 
@@ -278,7 +280,7 @@
       </a>
     </div>
   </div>
-  <p class="footnote">Not sure where you fit? <a href="#book">Book a free 15-minute call</a> — a real human, no pitch, just answers.</p>
+  <p class="footnote">Not sure where you fit? <a href="https://calendly.com/gubernator/free-15-min-call-tell-us-your-goals-real-human-expert" target="_blank" rel="noopener" data-calendly>Book a free 15-minute call</a> — a real human, no pitch, just answers.</p>
 </section>
 
 <!-- PROOF BAR -->
@@ -362,7 +364,7 @@
         <div class="mono-label" style="margin-bottom:0.4rem;">Not sure?</div>
         <h3>Free 15-Min Call</h3>
         <p style="margin:0.5rem 0 1.25rem;">Talk to a real expert. Walk away with a clear diagnosis and a plan. No pitch, no commitment.</p>
-        <a href="#book" class="btn-block btn-block-line">Book Free Call</a>
+        <a href="https://calendly.com/gubernator/free-15-min-call-tell-us-your-goals-real-human-expert" target="_blank" rel="noopener" data-calendly class="btn-block btn-block-line">Book Free Call</a>
       </div>
     </div>
 
@@ -438,7 +440,7 @@
         <div class="mono-label" style="margin-bottom:0.4rem;">Best starting point</div>
         <h3>Free 15-Min Call</h3>
         <p style="margin:0.5rem 0 1.25rem;">Tell us your goals. We'll tell you what's possible. A real human expert — zero commitment, zero pitch.</p>
-        <a href="#book" class="btn-block btn-block-gold">Book Free Call</a>
+        <a href="https://calendly.com/gubernator/free-15-min-call-tell-us-your-goals-real-human-expert" target="_blank" rel="noopener" data-calendly class="btn-block btn-block-gold">Book Free Call</a>
       </div>
       <div class="card" style="text-align:center;">
         <div class="mono-label" style="margin-bottom:0.4rem;">Done for you</div>
@@ -525,7 +527,7 @@
           <li>Clear next steps — no commitment</li>
           <li>Human expert, not a chatbot</li>
         </ul>
-        <div class="p-cta"><a href="#book" class="btn-block btn-block-line">Book Free Call</a></div>
+        <div class="p-cta"><a href="https://calendly.com/gubernator/free-15-min-call-tell-us-your-goals-real-human-expert" target="_blank" rel="noopener" data-calendly class="btn-block btn-block-line">Book Free Call</a></div>
       </div>
 
       <div class="p-card p-feat">
@@ -594,7 +596,7 @@
         <div class="cta-icon">📞</div>
         <h4>Curious</h4>
         <p>Free 15-min call. Tell us your goals. A real human expert. No pitch — just answers.</p>
-        <a href="mailto:support@gubernator.co?subject=Free 15-Min Call" class="btn-block btn-block-line">Book Free Call</a>
+        <a href="https://calendly.com/gubernator/free-15-min-call-tell-us-your-goals-real-human-expert" target="_blank" rel="noopener" data-calendly class="btn-block btn-block-line">Book Free Call</a>
       </div>
       <div class="cta-card">
         <div class="cta-icon">🔧</div>
@@ -632,6 +634,23 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
   }, { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Calendly — free 15-min call
+  const CALENDLY_FREE = 'https://calendly.com/gubernator/free-15-min-call-tell-us-your-goals-real-human-expert';
+
+  // Floating badge widget
+  window.addEventListener('load', function () {
+    if (window.Calendly) {
+      Calendly.initBadgeWidget({ url: CALENDLY_FREE, text: 'Book Free Call →', color: '#c4952a', textColor: '#ffffff', branding: true });
+    }
+  });
+
+  // Inline buttons open the popup instead of navigating
+  document.querySelectorAll('a[data-calendly]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      if (window.Calendly) { e.preventDefault(); Calendly.initPopupWidget({ url: CALENDLY_FREE }); }
+    });
+  });
 </script>
 
 </body>
