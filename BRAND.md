@@ -38,11 +38,10 @@ _Last updated: 2026-06-14 · maintained alongside the app at app.gubernator.co_
 
 ## Contact email
 
-- **Canonical public contact:** `support@gubernator.co` (matches the app + legal docs).
-- Also live: `info@gubernator.co`, `abuse@gubernator.co` (security/abuse reports).
-- The site currently uses `hello@gubernator.co` — **pick one and use it everywhere.**
-  Recommended: `support@gubernator.co` for support, keep `hello@` only if you
-  want a separate sales address.
+- **Canonical public contact (current):** `hello@gubernator.co` — used everywhere
+  on the marketing site. Single inbox for now to avoid monitoring multiple addresses.
+- `info@gubernator.co`, `abuse@gubernator.co` may also be live for security/abuse,
+  but the site links only `hello@`.
 
 ---
 
