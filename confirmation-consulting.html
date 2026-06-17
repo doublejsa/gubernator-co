@@ -31,8 +31,8 @@
     .prep { border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: 1.25rem; }
     .prep-lbl { font-family: var(--mono); font-size: 0.65rem; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.75rem; }
     .prep ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
-    .prep li { font-size: 0.9rem; color: var(--text2); display: flex; align-items: flex-start; gap: 0.55rem; }
-    .prep li::before { content: '—'; color: var(--gold); flex-shrink: 0; }
+    .prep li { font-size: 0.9rem; color: var(--text2); position: relative; padding-left: 1.2rem; line-height: 1.55; }
+    .prep li::before { content: '—'; color: var(--gold); position: absolute; left: 0; top: 0; }
     .note { font-size: 0.8rem; color: var(--text3); margin-top: 1rem; font-style: italic; }
     a { color: var(--gold); text-decoration: none; }
     a:hover { color: var(--gold-l); }
