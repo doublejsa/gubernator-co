@@ -197,6 +197,20 @@
     .p-list li::before { content: '—'; color: var(--gold); flex-shrink: 0; }
     .p-cta { margin-top: auto; }
 
+    /* EXECUTIVE BAND */
+    .exec { margin-top: 1.25rem; background: linear-gradient(135deg, var(--bg3) 0%, var(--bg2) 100%); border: 1px solid var(--gold); border-radius: 14px; padding: 2.5rem; display: grid; grid-template-columns: 1.1fr 1fr; gap: 2.5rem; align-items: center; position: relative; overflow: hidden; }
+    .exec::before { content: ''; position: absolute; top: -50%; right: -10%; width: 420px; height: 420px; background: radial-gradient(circle, rgba(196,149,42,0.10) 0%, transparent 70%); pointer-events: none; }
+    .exec-head .mono-label { margin-bottom: 0.6rem; }
+    .exec-head h3 { font-family: var(--serif); font-size: 1.9rem; font-weight: 500; margin-bottom: 0.5rem; }
+    .exec-price { font-size: 1.55rem; font-weight: 600; line-height: 1.2; margin-bottom: 0.85rem; }
+    .exec-price span { font-size: 0.95rem; font-weight: 400; color: var(--text2); }
+    .exec-head p { font-size: 0.92rem; color: var(--text2); line-height: 1.6; }
+    .exec-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem 1.25rem; margin-bottom: 1.5rem; }
+    .exec-list li { font-size: 0.86rem; color: var(--text2); position: relative; padding-left: 1.1rem; line-height: 1.4; }
+    .exec-list li::before { content: '✓'; color: var(--gold); position: absolute; left: 0; }
+    .exec-cta { display: flex; flex-direction: column; gap: 0.6rem; }
+    .exec-note { font-size: 0.74rem; color: var(--text3); text-align: center; }
+
     /* FOUNDER */
     .founder { background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 0 12px 12px 0; padding: 2.5rem; }
     .founder blockquote { font-family: var(--serif); font-size: 1.25rem; font-style: italic; line-height: 1.75; color: var(--text); margin-bottom: 1.25rem; }
@@ -230,7 +244,8 @@
 
     /* RESPONSIVE */
     @media (max-width: 800px) {
-      .fork-grid, .grid2, .grid3, .steps, .pricing-grid, .mockup-body { grid-template-columns: 1fr; }
+      .fork-grid, .grid2, .grid3, .steps, .pricing-grid, .mockup-body, .exec, .exec-list { grid-template-columns: 1fr; }
+      .exec { padding: 1.75rem; gap: 1.5rem; }
       .panel { border-right: none; border-bottom: 1px solid var(--border); }
       .panel:last-child { border-bottom: none; }
       nav .nav-links li:not(:last-child) { display: none; }
@@ -563,6 +578,31 @@
       </div>
     </div>
 
+    <div class="exec reveal">
+      <div class="exec-head">
+        <div class="mono-label">Done entirely for you</div>
+        <h3>Executive</h3>
+        <div class="exec-price">From $2,000 setup <span>+ $600 / month</span></div>
+        <p>For the founder, trader, or executive who wants the outcome — not the homework. We build your agent end to end, run it, and grow it. You just tell us what you want automated.</p>
+      </div>
+      <div>
+        <ul class="exec-list">
+          <li>Full build — VPS, agent, every integration</li>
+          <li>Zero terminal, zero config — ever</li>
+          <li>We monitor &amp; fix it around the clock</li>
+          <li>New capabilities added on request</li>
+          <li>Priority direct line to a real expert</li>
+          <li>Monthly review &amp; strategy call</li>
+          <li>Gubernator app included</li>
+          <li>Quarterly security audit</li>
+        </ul>
+        <div class="exec-cta">
+          <a href="https://calendly.com/gubernator/free-15-min-call-tell-us-your-goals-real-human-expert" target="_blank" rel="noopener" data-calendly-exec class="btn-block btn-block-gold">Book a Discovery Call</a>
+          <p class="exec-note">Every Executive engagement starts with a conversation, so we can scope and quote it for you.</p>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -657,6 +697,13 @@
   document.querySelectorAll('a[data-calendly-consult]').forEach(function (a) {
     a.addEventListener('click', function (e) {
       if (window.Calendly) { e.preventDefault(); Calendly.initPopupWidget({ url: CALENDLY_CONSULT }); }
+    });
+  });
+  // Executive — TODO: replace with dedicated Executive discovery event URL when created
+  const CALENDLY_EXEC = 'https://calendly.com/gubernator/free-15-min-call-tell-us-your-goals-real-human-expert';
+  document.querySelectorAll('a[data-calendly-exec]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      if (window.Calendly) { e.preventDefault(); Calendly.initPopupWidget({ url: CALENDLY_EXEC }); }
     });
   });
 </script>
