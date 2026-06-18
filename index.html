@@ -597,7 +597,7 @@
           <li>Quarterly security audit</li>
         </ul>
         <div class="exec-cta">
-          <a href="https://calendly.com/gubernator/free-15-min-call-tell-us-your-goals-real-human-expert" target="_blank" rel="noopener" data-calendly-exec class="btn-block btn-block-gold">Book a Discovery Call</a>
+          <a href="https://calendly.com/gubernator/executive-discovery" target="_blank" rel="noopener" data-calendly-exec class="btn-block btn-block-gold">Book a Discovery Call</a>
           <p class="exec-note">Every Executive engagement starts with a conversation, so we can scope and quote it for you.</p>
         </div>
       </div>
@@ -699,8 +699,7 @@
       if (window.Calendly) { e.preventDefault(); Calendly.initPopupWidget({ url: CALENDLY_CONSULT }); }
     });
   });
-  // Executive — TODO: replace with dedicated Executive discovery event URL when created
-  const CALENDLY_EXEC = 'https://calendly.com/gubernator/free-15-min-call-tell-us-your-goals-real-human-expert';
+  const CALENDLY_EXEC = 'https://calendly.com/gubernator/executive-discovery';
   document.querySelectorAll('a[data-calendly-exec]').forEach(function (a) {
     a.addEventListener('click', function (e) {
       if (window.Calendly) { e.preventDefault(); Calendly.initPopupWidget({ url: CALENDLY_EXEC }); }
